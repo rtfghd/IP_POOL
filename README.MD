@@ -21,7 +21,7 @@ def get_proxy():
     return proxy
     
 def test():
-    r = requests.get('http:www.baidu.com',timeout=10,proxies={'http':'http://'+get_proxy()})
+    r = requests.get('http://www.baidu.com',timeout=10,proxies={'http':'http://'+get_proxy()})
 
 ```
 
