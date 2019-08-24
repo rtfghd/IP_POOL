@@ -5,6 +5,10 @@ from random import choice
 import requests,lxml
 from bs4 import BeautifulSoup
 
+HEADERS = {
+    'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/76.0.3809.100 Safari/537.36'
+}
+
 class ProxyMetaclass(type):
     def __new__(cls, name, bases, attrs):
         count = 0
@@ -44,3 +48,23 @@ class Crawler(object,metaclass=ProxyMetaclass):
                 port = tr.select('td:nth-of-type(2)')[0].text
                 yield ':'.join([ip, port])
 
+
+
+    def crawl_xicidaili(self,page_count=10):
+        '''
+        获取 西刺代理
+        :param page_count: 页码
+        :return: 代理
+        '''
+        start_url = 'https://www.xicidaili.com/wn/{}/'
+        urls = [start_url.format(page) for page in range(1, page_count + 1)]
+        for url in urls:
+            print('Crawling', url)
+            html = requests.get(url,headers=HEADERS)
+            time.sleep(1)
+            soup = BeautifulSoup(html.text, 'lxml')
+            trs = soup.select('#ip_list > tr')[1:]
+            for tr in trs:
+                ip = tr.select('td:nth-of-type(2)')[0].text
+                port = tr.select('td:nth-of-type(3)')[0].text
+                yield ':'.join([ip, port])
