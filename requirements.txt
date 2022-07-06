@@ -2,5 +2,5 @@ Flask==0.12
 requests==2.20.0
 redis==3.0.1
 aiohttp==3.5.4
-lxml==3.7.2
+lxml==4.9.1
 beautifulsoup4==4.8.0
